@@ -32,6 +32,7 @@ metadata {
 		// IKEA
 		fingerprint manufacturer: "IKEA of Sweden", model: "KADRILJ roller blind", deviceJoinName: "IKEA Window Treatment" // raw description 01 0104 0202 00 09 0000 0001 0003 0004 0005 0020 0102 1000 FC7C 02 0019 1000 //IKEA KADRILJ Blinds
 		fingerprint manufacturer: "IKEA of Sweden", model: "FYRTUR block-out roller blind", deviceJoinName: "IKEA Window Treatment" // raw description 01 0104 0202 01 09 0000 0001 0003 0004 0005 0020 0102 1000 FC7C 02 0019 1000 //IKEA FYRTUR Blinds
+		fingerprint manufacturer: "IKEA of Sweden", model: "TREDANSEN block-out cellul blind", deviceJoinName: "IKEA Window Treatment" // raw description 01 0104 0102 00 09 0000 0003 0004 0005 0006 0008 0300 0B05 FC01 01 0019 //IKEA Tredansen Blinds
 
 		// Yookee yooksmart
 		fingerprint manufacturer: "Yookee", model: "D10110", deviceJoinName: "Yookee Window Treatment"	// raw description 01 0104 0202 01 07 0000 0001 0003 0004 0005 0020 0102 02 0003 0019
@@ -39,9 +40,6 @@ metadata {
 
 		// SMARTWINGS
 		fingerprint inClusters: "0000,0001,0003,0004,0005,0102", outClusters: "0019", manufacturer: "Smartwings", model: "WM25/L-Z", deviceJoinName: "Smartwings Window Treatment"
-
-		// SONOFF
-		fingerprint inClusters: "0000,0001,0003,0004,0020,0102,fc57", outClusters: "0019", manufacturer: "SONOFF", model: "ZBCurtain", deviceJoinName: "SONOFF Window Treatment"
 	}
 
 	preferences {
@@ -322,15 +320,15 @@ private List readDeviceBindingTable() {
 }
 
 def supportsLiftPercentage() {
-	isIkeaKadrilj() || isIkeaFyrtur() || isYooksmartOrYookee() || isSmartwings() || isSonoff()
+	isIkeaKadrilj() || isIkeaFyrtur() || isIkeaTredansen() || isYooksmartOrYookee() || isSmartwings()
 }
 
 def shouldInvertLiftPercentage() {
-	return isIkeaKadrilj() || isIkeaFyrtur() || isSmartwings() || isSonoff()
+	return isIkeaKadrilj() || isIkeaFyrtur() || isIkeaTredansen() || isSmartwings()
 }
 
 def reportsBatteryPercentage() {
-	return isIkeaKadrilj() || isIkeaFyrtur() || isYooksmartOrYookee() || isSmartwings() || isSonoff()
+	return isIkeaKadrilj() || isIkeaFyrtur() || isIkeaTredansen() || isYooksmartOrYookee() || isSmartwings()
 }
 
 def isIkeaKadrilj() {
@@ -341,14 +339,14 @@ def isIkeaFyrtur() {
 	device.getDataValue("model") == "FYRTUR block-out roller blind"
 }
 
+def isIkeaTredansen() {
+	device.getDataValue("model") == "TREDANSEN block-out cellul blind"
+}
+
 def isYooksmartOrYookee() {
 	device.getDataValue("model") == "D10110"
 }
 
 def isSmartwings() {
 	device.getDataValue("model") == "WM25/L-Z"
-}
-
-def isSonoff() {
-	device.getDataValue("manufacturer") == "SONOFF"
 }
